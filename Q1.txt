@@ -1,0 +1,182 @@
+// Q1-b: Write a program to implement Bresenham’s Mid-Point line drawing algorithm.
+
+#include<iostream>
+#include<conio.h>
+#include<math.h>
+
+using namespace std;
+
+class midpoint{
+    
+	int x1,y1,x2,y2;
+	int size;
+    int **arr;			// to store the points to plot
+    
+    public:
+    	void input();
+        void line();
+        void display();
+};
+ 
+
+void midpoint::input(){
+	cout<<"\nEnter the following values:\n";
+	cout<<"Starting point: (x1,y1) \t Ending point: (x2,y2)\n";
+	cout<<"\n  x1:";
+    cin>>x1;
+    cout<<"  y1:";
+    cin>>y1;
+    cout<<"\n  x2:";
+    cin>>x2;
+    cout<<"  y2:";
+    cin>>y2;
+}
+
+void midpoint::line(){
+	
+	input();
+	
+//	to check which point to start from
+	int X1 , Y1 , X2, Y2;
+	if (x1>x2){
+		X1 = x2;
+		Y1 = y2;
+		X2 = x1;
+		Y2 = y1;
+	}
+	else{
+		X1 = x1;
+		Y1 = y1;
+		X2 = x2;
+		Y2 = y2;
+	}
+	
+	int dx = X2 - X1;
+	int dy = Y2 - Y1;
+	
+	int d = 2*dy - dx;
+	int dE = 2*dy, dNE = 2*(dy-dx);
+	
+	size = X2-X1 + 1;
+	
+	arr = new int*[size];
+    for(int i = 0; i < size; ++i)
+        arr[i] = new int[2];
+    
+	arr[0][0] = X1;
+	arr[0][1] = Y1;    
+	
+	int i=1;
+	while(i < size){
+		X1++;
+		if(d<0)
+			d += dE;
+		else{
+			Y1++;
+			d += dNE;
+		}
+		
+		arr[i][0] = X1;
+		arr[i][1] = Y1;
+		i++;
+	}
+	
+	display();
+	
+}
+
+void midpoint::display(){
+	
+	cout<<"\nPoints:\n";
+	for(int i=0; i<size; i++){
+		cout<<"("<<arr[i][0]<<","<<arr[i][1]<<"), ";
+	}
+}
+
+int main(){
+	cout<<"-----------------------------------------------------";
+	cout<<"\n-- Bresenham’s Mid-Point line generating algorithm --\n";
+	cout<<"-----------------------------------------------------\n\n";
+	
+	
+	midpoint b;
+	b.line();
+	
+	getch();
+	return 0;
+}
+
+/*
+-----------------------------------------------------
+-- Bresenham's Mid-Point line generating algorithm --
+-----------------------------------------------------
+
+
+Enter the following values:
+Starting point: (x1,y1)          Ending point: (x2,y2)
+
+  x1:5
+  y1:8
+
+  x2:9
+  y2:11
+
+Points:
+
+  (5,8)
+  (6,9)
+  (7,10)
+  (8,10)
+  (9,11)
+  
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------------------------------
+-- BresenhamÆs Mid-Point line generating algorithm --
+-----------------------------------------------------
+
+
+Enter the following values:
+Starting point: (x1,y1)          Ending point: (x2,y2)
+
+  x1:20
+  y1:10
+
+  x2:30
+  y2:18
+
+Points:
+
+  (20,10)
+  (21,11)
+  (22,12)
+  (23,12)
+  (24,13)
+  (25,14)
+  (26,15)
+  (27,16)
+  (28,16)
+  (29,17)
+  (30,18)  
+  
+
+-----------------------------------------------------
+-- BresenhamÆs Mid-Point line generating algorithm --
+-----------------------------------------------------
+
+
+Enter the following values:
+Starting point: (x1,y1)          Ending point: (x2,y2)
+
+  x1:1
+  y1:1
+
+  x2:8
+  y2:5
+
+Points:
+(1,1), (2,2), (3,2), (4,3), (5,3), (6,4), (7,4), (8,5),
+
+*/
+
+
